@@ -5,14 +5,18 @@ RSpec.describe User, type: :model do
 
   describe '#create' do
     it 'should require a unique email' do
+      user.email = 'fake@fake.com'
       user.save
       other_user = FactoryGirl.build(:user)
+      other_user.email = 'fake@fake.com'
       expect{ other_user.save! }.to raise_exception(ActiveRecord::RecordInvalid, /[eE]mail.*taken/)
     end
 
     it 'should require a Username' do
+      user.username = 'foobar'
       user.save
       other_user = FactoryGirl.build(:user)
+      other_user.username = 'foobar'
       expect{ other_user.save! }.to raise_exception(ActiveRecord::RecordInvalid, /[uU]sername.*taken/)
     end
 

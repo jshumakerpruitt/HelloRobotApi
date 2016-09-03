@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @users = User.all
-      render :index
+      render json: {}
     else
       render json: @user.errors
     end
@@ -25,6 +25,6 @@ class UsersController < ApplicationController
   private
   def user_params
     puts params
-    params.require(:user).permit(:username, :password)
+    params.require(:user).permit(:username, :password, :age, :email)
   end
 end
