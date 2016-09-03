@@ -8,7 +8,7 @@ class UsersController < ApplicationController
       token = Knock::AuthToken.new(payload: { sub: "#{@user.id}", exp: exp }).token
       render json: {"jwt": token}
     else
-      render json: @user.errors
+      render json: {errors: @user.errors}
     end
   end
 
@@ -22,7 +22,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    puts params
     params.require(:user).permit(:username, :password, :age, :email)
   end
 end
