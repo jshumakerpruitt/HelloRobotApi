@@ -1,12 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { User.new(email: 'fake@fake.com',
-                        username: 'johndoe',
-                        password: 'validpass',
-                        age: '21') }
+  let(:user) { FactoryGirl.build(:user) }
 
   describe '#create' do
+    it 'should require a unique email' do
+      user.save
+      other_user = FactoryGirl.build(:user)
+      expect{ other_user.save! }.to raise_exception(ActiveRecord::RecordInvalid, /[eE]mail.*taken/)
+    end
+
+    it 'should require a Username' do
+      user.save
+      other_user = FactoryGirl.build(:user)
+      expect{ other_user.save! }.to raise_exception(ActiveRecord::RecordInvalid, /[uU]sername.*taken/)
+    end
+
     it 'should work with a password, email, username, age' do
       expect{ user.save! }.not_to raise_exception()
     end
