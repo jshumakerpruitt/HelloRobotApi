@@ -21,6 +21,7 @@ describe "Users endpoint" do
     it 'should return one user' do
       user = FactoryGirl.create(:user)
       get "/users/#{user.id}", get_headers
+
       expect(json['user'].has_key?('username')).to eq(true)
       expect(json['user'].has_key?('age')).to eq(true)
     end
