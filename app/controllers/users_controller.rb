@@ -1,16 +1,12 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, except: :create
 
-  def new
-    @user = User.new
-  end
-
   def create
-    puts user_params
     @user = User.new(user_params)
     if @user.save
-      @users = User.all
-      render json: {}
+      exp = Time.now.to_i + 3.hours
+      token = Knock::AuthToken.new(payload: { sub: "#{@user.id}", exp: exp }).token
+      render json: {"jwt": token}
     else
       render json: @user.errors
     end
@@ -18,8 +14,10 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    #render @users
-    #render json: @users
+  end
+
+  def show
+    @user = User.find(params[:id])
   end
 
   private
