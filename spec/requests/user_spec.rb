@@ -38,7 +38,7 @@ describe 'POST /users' do
                    password: user.password,
                    age: user.age,
                    email: user.email}}
-    post '/users', json_data,  get_headers
+    post '/users', get_headers.merge({params: json_data})
 
     expect(json['jwt']).not_to eq(nil)
   end
@@ -51,7 +51,8 @@ describe 'POST /users' do
                    password: nil,
                    age: nil,
                    email: user.email}}
-    post '/users', json_data, get_headers
+    post '/users', get_headers.merge({params: json_data})
+
     expect(json.has_key?('errors')).to eq(true)
 
     errors = json['errors']
