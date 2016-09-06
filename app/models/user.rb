@@ -5,7 +5,18 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :password, length: {minimum: 8}
 
+  has_many :user_likes, dependent: :destroy
+
+  has_many :received_likes,
+           class_name: UserLike,
+           foreign_key: :liked_user_id,
+           dependent: :destroy
+
+  has_many :liked_users,
+           through: :user_likes
+
   def self.from_token_payload payload
     User.find(payload["sub"])
   end
+
 end
