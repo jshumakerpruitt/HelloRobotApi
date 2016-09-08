@@ -38,7 +38,6 @@ describe "DELETE /user_token" do
     other_headers = get_headers(user)
     headers = get_headers(user)
     delete '/user_token', headers
-    puts json
 
     get '/users', headers
     expect(response.status).to eq(401)

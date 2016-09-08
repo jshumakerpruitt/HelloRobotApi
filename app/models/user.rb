@@ -30,7 +30,7 @@ class User < ApplicationRecord
   end
 
   def to_token_payload
-    {sub: id, token_timestamp: (Time.now.to_f * 1000).to_i}
+    {sub: id, token_timestamp: (token_timestamp.to_f * 1000).to_i}
   end
 
   private

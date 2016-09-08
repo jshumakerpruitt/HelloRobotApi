@@ -1,5 +1,5 @@
 module Requests
-  module JsonHelpers
+  module RequestHelpers
     def json
       JSON.parse(response.body)
     end
@@ -16,9 +16,7 @@ module Requests
     end
 
     def get_token(user)
-      puts 'requesting token'
       post '/user_token', {params:  {auth:  {email: user.email, password: user.password}, format: 'json'}}
-      puts "got_token: " + json["jwt"]
       return json["jwt"]
     end
   end
