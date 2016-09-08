@@ -8,10 +8,12 @@ module Requests
       user ||=  User.create(username: SecureRandom.urlsafe_base64,
                          email: "#{SecureRandom.urlsafe_base64}@fake.com",
                          password: 'lajsdflkajsdflkjas',
+                         verified: true,
                          age: 34)
 
       token = Knock::AuthToken.new(payload: {sub: user.id} ).token
       {headers: {"ACCEPT" => "application/json", "Authorization": "Bearer #{token}"}}
     end
+
   end
 end

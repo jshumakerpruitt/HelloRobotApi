@@ -19,4 +19,11 @@ class User < ApplicationRecord
     User.find(payload["sub"])
   end
 
+  def self.from_token_request request
+    email = request.params["auth"] && request.params["auth"]["email"]
+    user = self.find_by email: email
+    return user if user && user.verified
+    return nil
+  end
+
 end

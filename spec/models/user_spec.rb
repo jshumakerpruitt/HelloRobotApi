@@ -20,6 +20,26 @@ RSpec.describe User, type: :model do
     it { should have_many(:received_likes) }
     it { should have_many(:liked_users) }
 
+    describe "from_token_request" do
+      let(:user)  {FactoryGirl.create(:user)}
+      let( :auth_request  ) { double }
+      let( :auth_hash  ) { {"auth" => {"email" => user.email}}}
+      before(:each) do
+        expect(auth_request).to receive(:params).twice.and_return(auth_hash)
+      end
+
+      it "should return nil unless user is verified" do
+        expect(User.from_token_request(auth_request)).to eq(nil)
+      end
+
+      it "should return the user if verified" do
+        user.verified = true
+        user.save
+        expect(User.from_token_request(auth_request)).not_to eq(nil)
+      end
+
+    end
+
     describe 'likes' do
       let(:user) {FactoryGirl.create(:user) }
       let(:liked_user) {FactoryGirl.create(:user) }
@@ -42,6 +62,5 @@ RSpec.describe User, type: :model do
         liked_user.destroy
         expect(user.user_likes.count).to eq(0)
       end
-
     end
 end
