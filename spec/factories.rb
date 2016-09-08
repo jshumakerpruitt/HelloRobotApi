@@ -7,6 +7,8 @@ FactoryGirl.define do
     username {SecureRandom.urlsafe_base64}
     email {"#{SecureRandom.urlsafe_base64}@fake.com"}
     age 35
+    verified true
     password 'validpass'
   end
+
 end

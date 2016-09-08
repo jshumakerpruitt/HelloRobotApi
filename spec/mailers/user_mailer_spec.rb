@@ -6,8 +6,6 @@ RSpec.describe UserMailer, type: :mailer do
     #before(:all){ email.deliver_now }
     it 'should have a link with a token' do
       link = /localhost:3000\/verify\?token=#{CGI.escape('my.token')}/
-      p link
-      puts email.body.to_s
       expect(link =~ email.body.to_s ).not_to be(nil)
     end
 

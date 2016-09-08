@@ -11,9 +11,15 @@ module Requests
                          verified: true,
                          age: 34)
 
-      token = Knock::AuthToken.new(payload: {sub: user.id} ).token
+      token = get_token(user)
       {headers: {"ACCEPT" => "application/json", "Authorization": "Bearer #{token}"}}
     end
 
+    def get_token(user)
+      puts 'requesting token'
+      post '/user_token', {params:  {auth:  {email: user.email, password: user.password}, format: 'json'}}
+      puts "got_token: " + json["jwt"]
+      return json["jwt"]
+    end
   end
 end

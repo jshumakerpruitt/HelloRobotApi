@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:username) }
     it { should validate_presence_of(:age) }
     it { should validate_presence_of(:password) }
+    it {should respond_to(:token_date)}
 
     it do
       should validate_length_of(:password)
@@ -29,12 +30,11 @@ RSpec.describe User, type: :model do
       end
 
       it "should return nil unless user is verified" do
+        user.update_attribute(:verified, false)
         expect(User.from_token_request(auth_request)).to eq(nil)
       end
 
       it "should return the user if verified" do
-        user.verified = true
-        user.save
         expect(User.from_token_request(auth_request)).not_to eq(nil)
       end
 

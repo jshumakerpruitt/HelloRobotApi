@@ -21,6 +21,17 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def logout
+   #manipulate passed token and return
+  end
+
+  def logout_all
+    current_user.update_attribute(:token_timestamp, Time.now)
+    render json: {info: "success" }
+  end
+
+  def verify
+  end
   private
   def user_params
     params.require(:user).permit(:username, :password, :age, :email)

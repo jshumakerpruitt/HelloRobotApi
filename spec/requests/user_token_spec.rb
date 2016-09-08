@@ -1,8 +1,7 @@
 describe 'POST /user_token' do
-  let(:user) { FactoryGirl.create(:user, verified: true) }
+  let(:user) { FactoryGirl.create(:user) }
   let(:params ) { {params: {auth: {email: user.email, password: user.password}}} }
   let(:bad_params ) { {params: {auth: {email: user.email, password: 'wrongpassword'}}} }
-  
 
   it "should return a jwt for valid signins" do
     post '/user_token', params
@@ -19,6 +18,33 @@ describe 'POST /user_token' do
   it "should respond with 404 if signin fails" do
     post '/user_token', bad_params
     expect(response.status).to eq(404)
+  end
+
+end
+
+describe "DELETE /user_token" do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:params ) { {params: {auth: {email: user.email, password: user.password}}} }
+  let(:token) { get_token(user)}
+
+  it "should return message and status" do
+    delete '/user_token', get_headers
+    expect(response.status).to eq(200)
+    expect(json["info"]).to eq("success")
+  end
+
+  it "should invalidate all tokens" do
+    user = FactoryGirl.create(:user)
+    other_headers = get_headers(user)
+    headers = get_headers(user)
+    delete '/user_token', headers
+    puts json
+
+    get '/users', headers
+    expect(response.status).to eq(401)
+
+    get '/users', other_headers
+    expect(response.status).to eq(401)
   end
 
 end
