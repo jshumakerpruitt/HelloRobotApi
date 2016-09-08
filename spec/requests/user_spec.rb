@@ -31,8 +31,11 @@ describe 'GET /users/:id' do
 end
 
 describe 'POST /users' do
-  it 'should return a jwt given valid input' do
-    user = FactoryGirl.build(:user)
+  let( :saved_user  ) { FactoryGirl.create(:user) }
+  let( :user  ) { FactoryGirl.build(:user) }
+  after(:each) { user.destroy}
+
+  it 'should return a success message' do
     json_data = {user: {
                    username: user.username,
                    password: user.password,
@@ -40,17 +43,31 @@ describe 'POST /users' do
                    email: user.email}}
     post '/users', get_headers.merge({params: json_data})
 
-    expect(json['jwt']).not_to eq(nil)
+    expect(json.has_key?('status')).to eq(true)
+    expect(json['status']).to eq('created')
+    expect(response.status).to eq(201)
+    expect(json.has_key?('errors')).to eq(false)
+  end
+
+  it 'should send a confirmation email' do
+    delivery = double
+    expect(delivery).to receive(:deliver_now)
+    expect( UserMailer).to receive(:signup).and_return(delivery)
+    json_data = {user: {
+                   username: user.username,
+                   password: user.password,
+                   age: user.age,
+                   email: user.email}}
+    post '/users', get_headers.merge({params: json_data})
   end
 
   it 'should return error messages on failure' do
-    user = FactoryGirl.create(:user)
     invalid_user = FactoryGirl.build(:user)
     json_data = {user: {
-                   username: user.username,
+                   username: saved_user.username,
                    password: nil,
                    age: nil,
-                   email: user.email}}
+                   email: saved_user.email}}
     post '/users', get_headers.merge({params: json_data})
 
     expect(json.has_key?('errors')).to eq(true)

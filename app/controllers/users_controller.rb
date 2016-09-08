@@ -6,7 +6,8 @@ class UsersController < ApplicationController
     if @user.save
       exp = Time.now.to_i + 3.hours
       token = Knock::AuthToken.new(payload: { sub: "#{@user.id}", exp: exp }).token
-      render json: {"jwt": token}
+      UserMailer.signup(@user.email, token).deliver_now
+      render json: {'status': 'created'}, status: 201
     else
       render json: {errors: @user.errors}
     end
