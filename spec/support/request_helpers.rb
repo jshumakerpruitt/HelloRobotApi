@@ -19,5 +19,9 @@ module Requests
       post '/user_token', {params:  {auth:  {email: user.email, password: user.password}, format: 'json'}}
       return json["jwt"]
     end
+
+    def get_verify_link(user)
+      url = "/verify?token=#{CGI.escape user.to_valid_token}"
+    end
   end
 end

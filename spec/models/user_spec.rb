@@ -63,4 +63,61 @@ RSpec.describe User, type: :model do
         expect(user.user_likes.count).to eq(0)
       end
     end
+
+    describe "self.from_token" do
+      let(:user) {FactoryGirl.create(:user, verified: false)}
+
+      it "should return the User from a valid token" do
+        token = user.to_valid_token
+        expect(User.from_token(token).id).to eq(user.id)
+      end
+
+      it "shouldn't raise errors from invalid tokens" do
+        expect{ User.from_token "notatoken" }
+          .not_to raise_error()
+      end
+
+      it "should return nil if user doesn't exist" do
+        old_token = user.to_valid_token
+        user.destroy
+        expect(User.from_token old_token).to eq(nil)
+      end
+    end
+
+    describe "#logout_all" do
+      let(:user) {FactoryGirl.create(:user)}
+
+      it "should increase the value of token_timestamp" do
+        old_timestamp = user.token_timestamp
+        user.logout_all
+        user.reload
+        expect(old_timestamp < user.token_timestamp).to eq(true)
+      end
+
+      it "should return true" do
+        expect(user.logout_all).to eq(true)
+      end
+    end
+
+    describe ".verify_from_token" do
+      let(:user) {FactoryGirl.create(:user, verified: false)}
+
+      it "should return the user if found" do
+        token = user.to_valid_token
+        expect(User.verify_from_token token).to eq(user)
+      end
+
+      it "should verify the user" do
+        token = user.to_valid_token
+        User.verify_from_token token
+        expect(user.reload.verified).to eq(true)
+      end
+
+      it "should call #logout_all" do
+        token = user.to_valid_token
+        t1 = user.token_timestamp
+        User.verify_from_token token
+        expect(t1 < user.reload.token_timestamp).to eq(true)
+      end
+    end
 end

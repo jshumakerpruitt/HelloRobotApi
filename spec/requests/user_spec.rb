@@ -79,3 +79,43 @@ describe 'POST /users' do
     expect(errors.has_key?('password')).to eq(true)
   end
 end
+
+describe "GET /verify" do
+  let!(:user) { FactoryGirl.create(:user, verified: false)}
+
+  it "should read the token param" do
+    url = get_verify_link(user)
+    get url
+    expect(response
+            .request
+            .filtered_parameters
+            .has_key?("token")
+          ).to eq(true)
+  end
+
+  it "it should bypass authenticate_user" do
+    url = get_verify_link(user)
+    get url
+    expect(response.status).to eq(200)
+  end
+
+  it "should validate the user" do
+    url = get_verify_link(user)
+    get url
+    expect(user.reload.verified).to eq(true)
+  end
+
+  it "should return a fresh token" do
+    url = get_verify_link(user)
+    get url
+    expect(json.has_key?("jwt")).to eq(true)
+  end
+
+  it "should invalidate emailed token" do
+    url = get_verify_link(user)
+    get url
+    get url
+    expect(response.status).to eq(401)
+  end
+
+end

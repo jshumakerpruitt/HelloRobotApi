@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
   def self.from_token_payload payload
     user = User.find(payload["sub"])
-    issued_at =  payload['token_timestamp'].to_i
+    issued_at = payload['token_timestamp'].to_i
     return user if user && (user.token_timestamp.to_f * 1000).to_i <= issued_at
   end
 
@@ -29,8 +29,35 @@ class User < ApplicationRecord
     return nil
   end
 
+  def self.from_token token
+    begin
+      knock_token = Knock::AuthToken.new(token: token)
+      self.from_token_payload(knock_token.payload)
+    rescue
+    end
+  end
+
+  def self.verify_from_token token
+    user = from_token token
+    if user
+      user.update_attribute(:verified, true)
+      user.logout_all
+      user
+    else
+      nil
+    end
+  end
+
   def to_token_payload
     {sub: id, token_timestamp: (token_timestamp.to_f * 1000).to_i}
+  end
+
+  def to_valid_token
+    Knock::AuthToken.new(payload: to_token_payload).token
+  end
+
+  def logout_all
+    set_token_timestamp
   end
 
   private
