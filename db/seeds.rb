@@ -6,7 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-if Rails.env == 'development'
   100.times do
     User.create(
       username: Faker::Internet.user_name,
@@ -16,4 +15,3 @@ if Rails.env == 'development'
       avatar: Faker::Avatar.image.gsub(/\?.*$/, '')
       )
   end
-end

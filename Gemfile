@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+ruby '2.3.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Use Puma as the app server
@@ -9,7 +9,6 @@ gem 'knock'
 gem 'bcrypt', '~> 3.1.7'
 gem 'factory_girl_rails', '~> 4.0'
 gem 'faker'
-gem 'rspec-activemodel-mocks'
 gem 'rack-cors', :require => 'rack/cors'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -22,6 +21,7 @@ gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'rspec-activemodel-mocks'
   gem 'rspec-rails', '~> 3.5'
   gem 'byebug', platform: :mri
   gem 'sqlite3'
