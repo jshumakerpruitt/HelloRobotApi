@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user, except: [:create, :verify]
+  before_action :authenticate_user, except: [:create, :verify, :index]
 
   def create
     @user = User.new(user_params)
