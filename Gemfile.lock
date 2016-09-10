@@ -103,6 +103,7 @@ GEM
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    pg (0.18.4)
     pkg-config (1.1.7)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -203,6 +204,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   knock
   listen (~> 3.0.5)
+  pg
   pry-rails
   puma (~> 3.0)
   rack-cors
