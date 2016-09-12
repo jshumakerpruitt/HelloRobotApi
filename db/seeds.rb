@@ -6,12 +6,21 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-  100.times do
-    User.create(
-      username: Faker::Internet.user_name,
-      email: Faker::Internet.safe_email,
-      age: (18..35).to_a.sample,
-      password: 'validpass',
-      avatar: Faker::Avatar.image.gsub(/\?.*$/, '')
-      )
-  end
+User.create(
+  username: 'fake',
+  password: 'fakefake',
+  email: 'fake@fake.com',
+  age: 18,
+  avatar: Faker::Avatar.image.gsub(/\?.*$/, ''),
+  gender: 'Male'
+)
+
+100.times do
+  User.create(
+    username: Faker::Internet.user_name,
+    email: Faker::Internet.safe_email,
+    age: (18..35).to_a.sample,
+    password: 'validpass',
+    avatar: Faker::Avatar.image.gsub(/\?.*$/, '')
+  )
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908121717) do
+ActiveRecord::Schema.define(version: 20160910154759) do
 
   create_table "user_likes", force: :cascade do |t|
     t.integer  "user_id"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160908121717) do
     t.boolean  "verified"
     t.datetime "token_date"
     t.datetime "token_timestamp"
+    t.string   "gender"
   end
 
 end
