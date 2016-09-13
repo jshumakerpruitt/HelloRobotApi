@@ -14,11 +14,13 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.select("users.id, users.username, users.avatar, users.age, users.gender, user_likes.user_id as liked")
+      .joins("LEFT OUTER JOIN user_likes on users.id = user_likes.liked_user_id")
+      .where("user_likes.user_id = ? OR user_likes.user_id IS NULL", current_user.id)
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find(params['id'])
   end
 
   def logout_all
