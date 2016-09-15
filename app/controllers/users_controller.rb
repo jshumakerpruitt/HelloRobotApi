@@ -11,27 +11,17 @@ class UsersController < ApplicationController
       UserMailer
         .signup(@user.email, @user.to_valid_token)
         .deliver_now
-      render json: { status: created }, status: 201
+      render json: { status: 'created' }, status: 201
     else
       render json: { errors: @user.errors }
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/LineLength
   def index
-    sql = <<-SQL
-      SELECT users.id
-      , users.username
-      , users.avatar
-      , users.age
-      , users.gender
-      , user_likes.user_id as liked
-      FROM users LEFT OUTER JOIN user_likes
-      ON users.id = user_likes.liked_user_id
-      where user_likes.user_id = ?
-      OR user_likes.user_id IS NULL
-      SQL
-    @users = User.select(sql, current_user.id)
+    @users = User.select('users.id, users.username, users.avatar, users.age, users.gender, user_likes.user_id as liked')
+                 .joins('LEFT OUTER JOIN user_likes on users.id = user_likes.liked_user_id')
+                 .where('user_likes.user_id = ? OR user_likes.user_id IS NULL', current_user.id)
   end
   # rubocop:enable Metrics/LineLength
 

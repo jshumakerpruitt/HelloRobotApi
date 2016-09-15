@@ -34,6 +34,7 @@ class User < ApplicationRecord
     from_token_payload(knock_token.payload)
   rescue => e
     logger.warn(e)
+    nil
   end
 
   def self.verify_from_token(token)
