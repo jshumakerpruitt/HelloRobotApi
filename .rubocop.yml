@@ -1,0 +1,16 @@
+Rails:
+  Enabled: true
+AllCops:
+  Exclude:
+    - Guardfile
+    - Gemfile
+    - Gemfile.lock
+    - Rakefile 
+    - app/controllers/application_controller.rb
+    - app/mailers/application_mailer.rb
+    - db/schema.rb
+    - config/**/*
+    - bin/spring
+    - spec/rails_helper.rb
+Documentation:
+  Enabled: false
