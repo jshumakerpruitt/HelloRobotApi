@@ -16,6 +16,10 @@ class User < ApplicationRecord
   has_many :liked_users,
            through: :user_likes
 
+  has_many :messages
+  has_many :chatroom_users
+  has_many :chatrooms, through: :chatroom_users
+
   def self.from_token_payload(payload)
     user = User.find(payload['sub'])
     issued_at = payload['token_timestamp'].to_i
