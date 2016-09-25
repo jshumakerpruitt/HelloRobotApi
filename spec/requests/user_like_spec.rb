@@ -2,7 +2,7 @@ describe 'UserLike resource' do
   let(:liked_user) { FactoryGirl.create(:user) }
   let(:user) { FactoryGirl.create(:user) }
   before(:example) do
-    params = { params: { id: liked_user.id } }
+    params = { params: { id: liked_user.id, liked: true } }
     post '/user_likes', get_headers(user).merge(params)
     post '/user_likes', get_headers(user).merge(params)
   end

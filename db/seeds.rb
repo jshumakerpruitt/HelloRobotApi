@@ -5,7 +5,8 @@ User.create(
   email: 'fake@fake.com',
   age: 18,
   avatar: Faker::Avatar.image.gsub(/\?.*$/, ''),
-  gender: 'Male'
+  gender: 'Male',
+  verified: true
 )
 
 100.times do
