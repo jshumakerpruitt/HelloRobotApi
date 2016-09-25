@@ -2,14 +2,14 @@ FactoryGirl.define do
   factory :message do
     chatroom nil
     user nil
-    body "MyText"
+    body 'MyText'
   end
   factory :chatroom_user do
     chatroom nil
     user nil
   end
   factory :chatroom do
-    name "MyString"
+    name 'MyString'
   end
   factory :user_like do
     user_id 1
