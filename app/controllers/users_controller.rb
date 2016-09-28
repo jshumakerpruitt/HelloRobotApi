@@ -3,7 +3,7 @@
 # except create (e.g. signin) and verify (i.e. use verification link)
 #----------------------------------------
 class UsersController < ApplicationController
-  before_action :authenticate_user, except: [:create, :verify]
+  before_action :authenticate_user, except: [:create, :verify, :random]
 
   def create
     @user = User.new(user_params)
@@ -24,6 +24,11 @@ class UsersController < ApplicationController
                  .where('user_likes.user_id = ? OR user_likes.user_id IS NULL', current_user.id)
   end
   # rubocop:enable Metrics/LineLength
+
+  def random
+    @users = User.select(:username).limit(16).order('RANDOM()')
+    render json:  @users
+  end
 
   def show
     @user = User.find(params[:id])

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'verify' => 'users#verify'
 
+  get 'random' => 'users#random'
+
   resources :users, except: [:new, :edit]
   resources :user_likes, only: [:create, :destroy, :show, :index]
   resources :chatrooms, only: [:create, :destroy]
