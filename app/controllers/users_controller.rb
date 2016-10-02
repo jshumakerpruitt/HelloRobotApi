@@ -13,7 +13,8 @@ class UsersController < ApplicationController
         .deliver_now
       render json: { status: 'created' }, status: 201
     else
-      render json: { errors: @user.errors }
+      logger.warn("Signup Error: #{@user.errors.full_messages}")
+      render json: { errors: @user.errors }, status: 422
     end
   end
 
@@ -26,7 +27,7 @@ class UsersController < ApplicationController
   # rubocop:enable Metrics/LineLength
 
   def random
-    @users = User.select(:username).limit(16).order('RANDOM()')
+    @users = User.select(:username, :id).limit(16).order('RANDOM()')
     render json:  @users
   end
 
