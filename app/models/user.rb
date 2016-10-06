@@ -18,7 +18,14 @@ class User < ApplicationRecord
 
   has_many :messages
   has_many :chatroom_users
-  has_many :chatrooms, through: :chatroom_users
+
+  has_many :chatroom_memberships, inverse_of: :user
+  has_many :received_memberships, inverse_of: :partner
+
+  has_many :partners,
+           through: :chatroom_memberships
+
+  has_many :chatrooms, through: :chatroom_memberships
 
   def self.from_token_payload(payload)
     user = User.find(payload['sub'])

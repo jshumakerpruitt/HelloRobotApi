@@ -11,10 +11,10 @@ module ApplicationCable
     protected
 
     def find_verified_user
-      return User.first
-      token = self.env['ORIGINAL_FULLPATH'].gsub(/\/cable\?token=/, '')
+      token = env['ORIGINAL_FULLPATH'].gsub(%r{\/cable\?token=}, '')
 
-      if user = User.from_token(token)
+      user = User.from_token(token)
+      if user
         user
       else
         reject_unauthorized_connection

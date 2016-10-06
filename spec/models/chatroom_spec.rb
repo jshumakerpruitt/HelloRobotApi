@@ -6,7 +6,8 @@ RSpec.describe Chatroom, type: :model do
   it { should validate_uniqueness_of(:name).case_insensitive }
   it { should validate_presence_of(:name) }
 
-  it { should have_many(:chatroom_users) }
+  it { should have_many(:chatroom_memberships) }
   it { should have_many(:users) }
+  it { should have_many(:partners) }
   it { should have_many(:messages) }
 end

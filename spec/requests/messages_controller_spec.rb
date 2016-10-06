@@ -4,7 +4,7 @@ describe 'Messages resource' do
   let(:params) do
     {
       params: {
-        chatroom_id: chatroom.id, message: {body: 'message body'}
+        chatroom_id: chatroom.id, message: { body: 'message body' }
       }
     }
   end

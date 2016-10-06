@@ -5,6 +5,12 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, except: [:create, :verify, :random]
 
+  # rubocop:disable Style/AccessorMethodName
+  def get_current_user
+    render json: { user: current_user.id }, status: 200
+  end
+  # rubocop:enable Style/AccessorMethodName
+
   def create
     @user = User.new(user_params)
     if @user.save

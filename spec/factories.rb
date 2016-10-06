@@ -1,4 +1,9 @@
 FactoryGirl.define do
+  factory :chatroom_membership do
+    user nil
+    user nil
+    chatroom nil
+  end
   factory :message do
     chatroom nil
     user nil
