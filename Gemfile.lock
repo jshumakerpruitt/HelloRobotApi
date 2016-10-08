@@ -169,6 +169,9 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    ruby_http_client (3.0.0)
+    sendgrid-ruby (4.0.4)
+      ruby_http_client (~> 3.0.0)
     shellany (0.0.1)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
@@ -212,6 +215,7 @@ DEPENDENCIES
   redis (~> 3.0)
   rspec-activemodel-mocks
   rspec-rails (~> 3.5)
+  sendgrid-ruby
   shoulda-matchers (~> 3.1)
   spring
   spring-watcher-listen (~> 2.0.0)

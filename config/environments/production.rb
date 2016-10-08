@@ -76,4 +76,14 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   config.web_socket_server_url = "wss://okrobot.herokuapp.com/cable"
   config.action_cable.allowed_request_origins = ['http://okrobot.surge.sh']
+
+  config.action_mailer.smtp_settings = {
+    :user_name => ENV[SENDGRID_USERNAME],
+    :password => ENV[SENDGRID_PASSWORD],
+    :domain => 'ok-robot.herokuapp.com',
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
 end
