@@ -78,8 +78,8 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = ['http://okrobot.surge.sh']
 
   config.action_mailer.smtp_settings = {
-    :user_name => ENV[SENDGRID_USERNAME],
-    :password => ENV[SENDGRID_PASSWORD],
+    :user_name => ENV['SENDGRID_USERNAME'],
+    :password => ENV['SENDGRID_PASSWORD'],
     :domain => 'ok-robot.herokuapp.com',
     :address => 'smtp.sendgrid.net',
     :port => 587,
