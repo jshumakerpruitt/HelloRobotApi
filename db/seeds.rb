@@ -9,12 +9,15 @@ User.create(
   verified: true
 )
 
-100.times do
+100.times do |i|
+  gender = i % 2 == 0 ? 'male' : 'female'
   User.create(
     username: Faker::Internet.user_name,
-    email: Faker::Internet.safe_email,
+    email: "fake#{i}@fake.com",
     age: (18..35).to_a.sample,
-    password: 'validpass',
-    avatar: Faker::Avatar.image.gsub(/\?.*$/, '')
+    password: 'fakefake',
+    avatar: Faker::Avatar.image.gsub(/\?.*$/, ''),
+    gender: gender,
+    verified: true
   )
 end
