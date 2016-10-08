@@ -64,7 +64,7 @@ class UsersController < ApplicationController
     if user
       render json: { jwt: user.to_valid_token }
     else
-      render json: {}, status: :unauthorized
+      render json: {error: 'could not process token'}
     end
   end
 
