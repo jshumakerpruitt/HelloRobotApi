@@ -70,6 +70,9 @@ class UsersController < ApplicationController
 
   def destroy
     @user = current_user.destroy
+    render json: {message: 'account deleted'}
+  rescue
+    render json: {error: 'unable to delete account'}, status: 422
   end
 
   private
